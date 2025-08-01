@@ -20,7 +20,7 @@ variables:
   # DO NOT TOUCH
 
   # For pipeline reference
-  resource_group: default_resourse_group
+  resource_group: default_resource_group
   aml_workspace: FitwellWorkspace
   application_insights: fitwellworkspa9912283553
   key_vault: fitwellworkspa7534202814
@@ -35,4 +35,5 @@ variables:
   # terraform_st_storage_account: st$(namespace)$(postfix)$(environment)tf
   # terraform_st_container_name: default
   # terraform_st_key: mlops-tab
+
 

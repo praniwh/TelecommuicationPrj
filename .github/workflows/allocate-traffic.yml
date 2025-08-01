@@ -30,7 +30,7 @@ jobs:
           # Azure login can use either Service Principal or OIDC authentication:
           # 1. Service Principal: Uses client ID, tenant ID, client secret/certificate
           #    Example: creds: ${{secrets.creds}}
-          #
+          creds: ${{secrets.creds}}
           # 2. OIDC (OpenID Connect): More secure, uses federated identity credentials
           #    Example:
           #    client-id: ${{ secrets.AZURE_CLIENT_ID }}

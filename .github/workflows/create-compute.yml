@@ -32,6 +32,14 @@ jobs:
   create-compute:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Debug Secret Length
+        run: |
+          echo "Secret length: ${#AZURE_CREDENTIALS}"
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
@@ -63,5 +71,6 @@ jobs:
                                   --max-instances ${{ inputs.max_instances }} \
                                   --resource-group ${{ inputs.resource_group }} \
                                   --workspace-name ${{ inputs.workspace_name }}
+
 
 

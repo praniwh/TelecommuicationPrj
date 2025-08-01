@@ -66,4 +66,38 @@ jobs:
     secrets:
         creds: ${{secrets.AZURE_CREDENTIALS}}
           
- 
+  create-endpoint:
+      needs: [get-config,run-pipeline]
+      uses: Azure/mlops-templates/.github/workflows/create-endpoint.yml@main
+      with:
+        resource_group: ${{ needs.get-config.outputs.resource_group }}
+        workspace_name: ${{ needs.get-config.outputs.aml_workspace }} 
+        endpoint_file: mlops/azureml/deploy/online/online-endpoint.yml
+        endpoint_name: teleco-churn-endpoint
+        endpoint_type: online
+      secrets:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+
+  create-deployment:
+      uses: Azure/mlops-templates/.github/workflows/create-deployment.yml@main
+      needs: [get-config,register-environment-deploy,create-endpoint]
+      with:
+        resource_group: ${{ needs.get-config.outputs.resource_group }}
+        workspace_name: ${{ needs.get-config.outputs.aml_workspace }} 
+        endpoint_file: mlops/azureml/deploy/online/online-deployment.yml
+        endpoint_name: teleco-churn-endpoint
+        endpoint_type: online
+        deployment_name: teleco-churn-online-dp
+      secrets:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+
+  allocate-traffic:
+      uses: Azure/mlops-templates/.github/workflows/allocate-traffic.yml@main
+      needs: [get-config,create-deployment]
+      with:
+        resource_group: ${{ needs.get-config.outputs.resource_group }}
+        workspace_name: ${{ needs.get-config.outputs.aml_workspace }} 
+        traffic_allocation: teleco-churn-online-dp=100
+        endpoint_name: teleco-churn-endpoint
+      secrets:
+        creds: ${{secrets.AZURE_CREDENTIALS}}

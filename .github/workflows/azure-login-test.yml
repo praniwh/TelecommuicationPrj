@@ -1,0 +1,16 @@
+name: Azure Login Test
+
+on: 
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  test-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Show Azure Subscription Info
+        run: az account show

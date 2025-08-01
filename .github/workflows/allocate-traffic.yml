@@ -16,7 +16,7 @@ on:
         required: true
         type: string
     secrets:
-      creds:
+      AZURE_CREDENTIALS:
         required: true
 jobs:
   allocate-traffic:
@@ -27,7 +27,7 @@ jobs:
       - name: "Az CLI login"
         uses: azure/login@v1
         with:
-          creds: ${{secrets.creds}}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: install-extension
         run: az extension add -n ml -y

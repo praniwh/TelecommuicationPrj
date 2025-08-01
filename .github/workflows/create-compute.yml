@@ -26,7 +26,7 @@ on:
         required: false
         type: string
     secrets:
-      creds:
+      AZURE_CREDENTIALS:
         required: true
 jobs:
   create-compute:
@@ -35,7 +35,7 @@ jobs:
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
-          creds: ${{secrets.creds}}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
          
       - name: install-extension
         run:  az extension add -n ml -y
@@ -63,4 +63,5 @@ jobs:
                                   --max-instances ${{ inputs.max_instances }} \
                                   --resource-group ${{ inputs.resource_group }} \
                                   --workspace-name ${{ inputs.workspace_name }}
+
 
